@@ -103,14 +103,21 @@ begin
         w_reset <= '1';  wait for k_clk_period;
             assert w_floor = "0010" report "bad reset" severity failure; 
         -- clear reset
-		
+        w_stop <= '1';
+        w_reset <= '0';  wait for k_clk_period;
+            assert w_floor = "0010" report "bad reset" severity failure;		
 		-- active UP signal
-		w_up_down <= '1'; 
+		w_up_down <= '1';
+		w_stop <= '0'; wait for k_clk_period;
+		    assert w_floor = "0011" report "No up :(" severity failure;
+		w_up_down <= '0'; wait for k_clk_period;
+            assert w_floor = "0010" report "Debbie Downer :(" severity failure;    
 		
 		-- stay on each o_floor for 2 cycles and then move up to the next o_floor
         w_stop <= '1';  wait for k_clk_period * 2;
             assert w_floor = "0010" report "bad wait on floor2" severity failure;
-        w_stop <= '0';  wait for k_clk_period;
+        w_stop <= '0';
+        w_up_down <= '1';  wait for k_clk_period;
             assert w_floor = "0011" report "bad up from floor2" severity failure;
 		-- rest of cases
         

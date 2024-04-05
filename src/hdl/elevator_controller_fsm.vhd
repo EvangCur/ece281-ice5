@@ -123,9 +123,11 @@ begin
 	register_proc : process (i_clk)
     begin
     if (rising_edge(i_clk))then -- synchronous reset
-        if (i_stop = '1') then f_Q <= f_Q;         -- if not enabled, stay at current floor
+        if (i_stop = '1') then
+            f_Q <= f_Q;         -- if not enabled, stay at current floor
         end if;
-        if (i_stop = '0') then f_Q <= f_Q_next;    -- if elevator is enabled, advance floors
+        if (i_stop = '0') then
+            f_Q <= f_Q_next;    -- if elevator is enabled, advance floors
         end if;
         if (i_reset = '1') then
             f_Q <= s_floor2;

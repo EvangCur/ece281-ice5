@@ -120,7 +120,11 @@ begin
         w_up_down <= '1';  wait for k_clk_period;
             assert w_floor = "0011" report "bad up from floor2" severity failure;
 		-- rest of cases
+        wait for k_clk_period * 3;
+            assert w_floor = "0100" report "not staying at 4th floor" severity failure;
         
+        w_up_down <= '0'; wait for k_clk_period * 5;
+            assert w_floor = "0001" report "not staying at 1st floor" severity failure;
         -- go back DOWN
           
 		  	
